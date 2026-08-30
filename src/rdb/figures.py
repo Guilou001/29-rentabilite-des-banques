@@ -109,7 +109,8 @@ def contributions(table, dossier: Path = DOSSIER) -> list[Path]:
 def exploitation(table, dossier: Path = DOSSIER) -> list[Path]:
     """Le coefficient d'exploitation et le rendement, dans le temps."""
     appliquer()
-    fig, axes = plt.subplots(1, 2, figsize=(10.6, 4.4))
+    fig, axes = plt.subplots(1, 2, figsize=(10.6, 4.6))
+    poignees = None
     for colonne, ax, titre, etiquette in (
             ("coefficient_exploitation", axes[0], "Les frais rapportés au revenu brut",
              "coefficient d'exploitation"),
@@ -126,8 +127,15 @@ def exploitation(table, dossier: Path = DOSSIER) -> list[Path]:
         ax.set_xlabel("exercice")
         ax.set_ylabel(etiquette)
         ax.yaxis.set_major_formatter(formateur(decimales=0, suffixe=" %", facteur=100))
-    axes[0].legend(fontsize=7.6, ncols=4, frameon=False, loc="lower center",
-                   bbox_to_anchor=(1.1, -0.52))
+        poignees = ax.get_legend_handles_labels()
+    # l'exercice 2008 est nommé plutôt que laissé au lecteur : un coefficient d'exploitation de
+    # 194 % passe pour une erreur de calcul si rien ne dit d'où il vient
+    pointe = table.loc[table["coefficient_exploitation"].idxmax()]
+    axes[0].annotate(f"{NOMS_COURTS.get(pointe['nom'], pointe['nom'])} {int(pointe['exercice'])}",
+                     (pointe["exercice"], pointe["coefficient_exploitation"]),
+                     textcoords="offset points", xytext=(10, -2), fontsize=7.6, color=GRIS)
+    fig.legend(*poignees, fontsize=8, ncols=4, frameon=False, loc="lower center",
+               bbox_to_anchor=(0.5, -0.08))
     return _fin(fig, "exploitation", dossier)
 
 

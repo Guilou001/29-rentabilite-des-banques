@@ -205,8 +205,10 @@ davantage que la baisse moyenne du secteur en vingt-huit ans.
 ![Le coefficient d'exploitation et le rendement, exercice par exercice](results/figures/exploitation.png)
 
 Comment lire cette figure : à gauche les frais rapportés au revenu brut, à droite le rendement, avec
-la moyenne des six en trait épais. Le coefficient d'exploitation baisse de 63,6 % en 1997 à 55,9 %
-en 2025, une amélioration continue, pendant que le rendement, lui, ne monte pas.
+la moyenne des six en trait épais. Le coefficient d'exploitation passe de 63,6 % en 1997 à 55,9 % en
+2025, mais l'amélioration n'est pas continue : il **empire d'abord**, jusqu'à 68,3 % en 2003, et ne
+descend qu'à partir de 2009. La pointe nommée à 194 % est l'exercice 2008 de la Banque Canadienne
+Impériale de Commerce, dont les frais ont dépassé le revenu brut effondré.
 
 ### 5.5 Le compte de résultat du BSIF ne porte aucune ligne de dividendes
 

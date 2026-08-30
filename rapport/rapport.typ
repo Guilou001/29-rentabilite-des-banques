@@ -32,7 +32,7 @@
   #block(width: 100%)[
     #text(size: 18pt, weight: "bold")[Les banques canadiennes gagnent mieux leur vie qu'en 1997 et rapportent moins à leurs actionnaires]
     #v(0.6em)
-    #text(size: 10pt, fill: luma(70))[Guillaume Vaudescal · 2026-08-30 · #link("https://github.com/Guilou001")[Guilou001]]
+    #text(size: 10pt, fill: luma(70))[Guillaume Vaudescal · 2026-08-30 · #link("https://github.com/Guilou001/29-rentabilite-des-banques")[Guilou001/29-rentabilite-des-banques]]
   ]
 ]
 #v(1.2em)
@@ -327,7 +327,7 @@ Comment lire ce tableau, en trois constats. Le premier est que le levier ne sép
 
 #figure(image("../results/figures/exploitation.png", width: 100%), caption: [Le coefficient d'exploitation et le rendement, exercice par exercice])
 
-Comment lire cette figure : à gauche les frais rapportés au revenu brut, à droite le rendement, avec la moyenne des six en trait épais. Le coefficient d'exploitation baisse de 63,6 % en 1997 à 55,9 % en 2025, une amélioration continue, pendant que le rendement, lui, ne monte pas.
+Comment lire cette figure : à gauche les frais rapportés au revenu brut, à droite le rendement, avec la moyenne des six en trait épais. Le coefficient d'exploitation passe de 63,6 % en 1997 à 55,9 % en 2025, mais l'amélioration n'est pas continue : il *empire d'abord*, jusqu'à 68,3 % en 2003, et ne descend qu'à partir de 2009. La pointe nommée à 194 % est l'exercice 2008 de la Banque Canadienne Impériale de Commerce, dont les frais ont dépassé le revenu brut effondré.
 
 === 5.5 Le compte de résultat du BSIF ne porte aucune ligne de dividendes
 
