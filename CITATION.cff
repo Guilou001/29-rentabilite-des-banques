@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+title: "D'où vient le rendement des banques canadiennes : la décomposition de DuPont sur 174 exercices de relevés du BSIF"
+message: "Si vous utilisez ce dépôt, citez-le comme suit."
+type: software
+authors:
+  - family-names: Vaudescal
+    given-names: Guillaume
+repository-code: "https://github.com/Guilou001/29-rentabilite-des-banques"
+license: MIT
+version: 1.0.0
+date-released: "2026-08-30"
