@@ -148,8 +148,12 @@ def sorties(table, dossier: Path = DOSSIER) -> list[Path]:
         g = g.sort_values("exercice")
         ax.plot(g["exercice"], g["part_du_resultat"], lw=1.2, alpha=0.55,
                 color=OKABE_ITO[j % len(OKABE_ITO)], label=NOMS_COURTS.get(nom, nom))
+    # la moyenne ne porte que sur les banques en bénéfice : un exercice en perte n'a pas de part du
+    # résultat net. Trois exercices sur vingt-neuf n'en comptent donc que cinq, et l'étiquette le
+    # dit plutôt que de laisser croire à une population constante.
     moyenne = table.groupby("exercice")["part_du_resultat"].mean()
-    ax.plot(moyenne.index, moyenne.to_numpy(), lw=2.8, color=GRIS, label="Moyenne des six")
+    ax.plot(moyenne.index, moyenne.to_numpy(), lw=2.8, color=GRIS,
+            label="Moyenne des banques en bénéfice")
     ax.axhline(1.0, color=GRIS, lw=0.9, ls="--")
     # l'exercice 2021 d'une banque canadienne court de novembre 2020 à octobre 2021, donc
     # entièrement à l'intérieur de la restriction du BSIF, levée le 4 novembre 2021

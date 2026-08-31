@@ -41,6 +41,32 @@ def test_l_exercice_compte_douze_mois_et_commence_en_novembre():
     assert len(set(mois)) == 12
 
 
+def test_la_regle_d_exercice_couvre_les_douze_mois_de_l_annee():
+    """La règle appliquée au bilan se déduit de la liste ci-dessus, elle n'est pas réécrite. Un
+    mois qui manquerait à la liste ferait échouer le rangement au lieu de le fausser en silence."""
+    assert postes.exercice_du_mois(2024, 11) == 2025
+    assert postes.exercice_du_mois(2024, 12) == 2025
+    assert postes.exercice_du_mois(2025, 1) == 2025
+    assert postes.exercice_du_mois(2025, 10) == 2025
+    assert [postes.exercice_du_mois(2025, m) for m in range(1, 13)] == [2025] * 10 + [2026] * 2
+
+
+def test_aucun_code_de_capitaux_propres_n_est_a_la_fois_retenu_et_ecarte():
+    """Les deux listes servent de garde-fou l'une à l'autre : un code des deux côtés rendrait le
+    contrôle des codes non déclarés muet sur lui-même."""
+    assert set(postes.CAPITAUX_PROPRES) & set(postes.CAPITAUX_PROPRES_ECARTES) == set()
+    assert postes.PASSIF_ET_CAPITAUX in postes.CAPITAUX_PROPRES_ECARTES
+    assert postes.MINORITAIRES_BILAN in postes.CAPITAUX_PROPRES_ECARTES
+
+
+def test_les_deux_codes_du_cumul_des_autres_elements_sont_tous_deux_lus():
+    """Le cumul des autres éléments du résultat global a changé de code fin 2006. N'en lire qu'un
+    gonfle les capitaux propres des exercices 2005 et 2006, donc rabaisse leur rendement."""
+    assert postes.CUMUL_AUTRES_ELEMENTS in postes.CAPITAUX_PROPRES
+    assert postes.CUMUL_AUTRES_ELEMENTS_ANCIEN in postes.CAPITAUX_PROPRES
+    assert postes.CUMUL_AUTRES_ELEMENTS != postes.CUMUL_AUTRES_ELEMENTS_ANCIEN
+
+
 def test_les_six_grandes_banques_ont_toutes_un_nom_court():
     assert len(postes.GRANDES_BANQUES) == 6
     for nom in postes.GRANDES_BANQUES.values():

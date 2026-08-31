@@ -1,8 +1,9 @@
 # Les banques canadiennes gagnent mieux leur vie qu'en 1997 et rapportent moins à leurs actionnaires
 
-Une banque qui garde trente cents de chaque dollar encaissé, contre dix-neuf il y a vingt-huit ans,
-devrait rapporter davantage. Les six grandes banques canadiennes rapportent pourtant trois points de
-moins qu'en 1997. Ce dépôt sépare les causes, sur les relevés que les banques déposent au régulateur.
+Une banque qui garde près de vingt-huit cents de chaque dollar encaissé, contre dix-neuf il y a
+vingt-huit ans, devrait rapporter davantage. Les six grandes banques canadiennes rapportent
+pourtant trois points de moins qu'en 1997. Ce dépôt sépare les causes, sur les relevés déposés au
+régulateur.
 
 [![ci](https://github.com/Guilou001/29-rentabilite-des-banques/actions/workflows/ci.yml/badge.svg)](https://github.com/Guilou001/29-rentabilite-des-banques/actions/workflows/ci.yml)
 ![python](https://img.shields.io/badge/python-3.12-blue)
@@ -10,10 +11,10 @@ moins qu'en 1997. Ce dépôt sépare les causes, sur les relevés que les banque
 ![licence](https://img.shields.io/badge/code-MIT-green)
 
 **Résultat en une phrase.** Sur 174 exercices et six banques de 1997 à 2025, la marge a ajouté
-**+5,7 points** au rendement des capitaux propres, mais deux choses lui en ont retiré **8,6** : chaque
-dollar de bilan produit moins de revenu qu'avant (**−4,5 points**) et les banques portent un tiers de
-levier en moins (**−4,1 points**) ; le rendement moyen passe donc de **15,95 % à 12,98 %**, et
-l'identité qui le décompose se referme à **5,6 × 10⁻¹⁷**.
+**+5,7 points** au rendement des capitaux propres. Deux choses lui en ont retiré **8,6** : chaque
+dollar de bilan produit moins de revenu qu'avant (**−4,5 points**), et les banques portent un quart
+de levier en moins (**−4,1 points**). Le rendement moyen passe donc de **15,95 % à 12,98 %**, et
+l'identité qui le décompose se referme à **2,8 × 10⁻¹⁷**.
 
 *Summary in English. A DuPont decomposition of Canada's six domestic systemically important banks
 over 174 bank-years, built from OSFI's public P3 income statement and M4 balance sheet returns
@@ -43,19 +44,21 @@ le revenu qu'engendre chaque dollar de bilan. Le **levier** est le nombre de dol
 porte chaque dollar de capitaux propres. L'égalité est vraie par construction, les dénominateurs
 s'annulant deux à deux, ce qui la rend vérifiable à la précision de la machine.
 
-La question est alors précise : sur trente ans, lequel des trois a bougé, et dans quel sens ?
+La question est alors précise : sur vingt-huit ans, lequel des trois a bougé, et dans quel sens ?
 
 ## 2. D'où vient le projet, et ce qu'il apporte
 
 La décomposition de DuPont est enseignée partout et appliquée société par société, le plus souvent
 sur trois ou cinq ans de comptes publiés. Le BSIF publie autre chose : le relevé réglementaire que
 chaque banque lui dépose, trimestre par trimestre, depuis 1996. C'est la même information comptable,
-mais homogène entre les six banques et longue de trente ans, ce qu'aucun rapport annuel n'offre.
+mais homogène entre les six banques et longue de trente ans, de 1996 à 2026, ce qu'aucun rapport
+annuel n'offre.
 
 Trois apports.
 
-- **Trois identités vérifiées** plutôt qu'un résultat affirmé : celle de DuPont, celle qui descend du
-  revenu brut au résultat net, et celle qui referme le bilan, cette dernière sur 19 241 fins de mois.
+- **Quatre identités vérifiées** plutôt qu'un résultat affirmé : celle de DuPont, celle qui descend
+  du revenu brut au résultat net, celle qui referme le bilan, celle du formulaire. La dernière
+  désigne lequel des trois codes homonymes porte le revenu hors intérêt.
 - **L'attribution logarithmique de la variation du rendement**, qui répartit l'écart entre les trois
   facteurs sans laisser de résidu, sur cinq périodes et six banques.
 - **Ce que le compte de résultat du BSIF ne dit pas** : il ne porte aucune ligne de dividendes
@@ -66,9 +69,12 @@ Trois apports.
 | Relevé | Ce qu'il porte | Taille | Ce qu'on y prend |
 |---|---|---:|---|
 | P3 | compte de résultat consolidé, trimestriel | 230 496 088 o | le revenu, les frais, l'impôt, le résultat net |
-| M4 | bilan consolidé, mensuel | 748 730 698 o | l'actif total et les cinq lignes de capitaux propres |
+| M4 | bilan consolidé, mensuel | 748 730 698 o | l'actif total et les six lignes de capitaux propres |
 
-Une fois chargés, ils font **1 900 048 lignes**, 110 institutions, 31 exercices de 1996 à 2026.
+Une fois chargés, ils font **1 900 048 lignes** et 31 exercices de 1996 à 2026. Le compte de
+résultat porte 110 déposants et le bilan 112 ; trois d'entre eux sont les agrégats que le portail
+calcule lui-même, « Total All Banks », « Total Domestic Banks » et « Total Foreign Bank
+Subsidiaries ».
 L'étude porte sur les six banques d'importance systémique nationale et sur les exercices complets,
 soit **174 exercices de 1997 à 2025**. Mesuré le 30 août 2026. Licence du gouvernement ouvert du
 Canada, usage et redistribution permis avec attribution ; rien n'est redistribué ici.
@@ -80,7 +86,7 @@ portefeuille où ce cumul simplifie le travail : au quatrième trimestre, le cum
 
 Le deuxième est que **la ligne 22 du formulaire n'est pas le revenu brut**. Elle est déjà nette des
 provisions pour créances douteuses. Le revenu brut est la somme des lignes 14 et 21, et prendre la 22
-sous-estimerait la productivité de six à douze pour cent selon la banque, au dernier exercice.
+sous-estimerait la productivité de 6,5 % à 12,5 % selon la banque, au dernier exercice.
 
 Le troisième est que **la part des actionnaires minoritaires porte deux codes**. Le premier vient de
 l'ancien référentiel comptable canadien, le second des normes internationales, adoptées par les
@@ -90,8 +96,8 @@ qu'un laisse un trou de plusieurs centaines de millions avant 2012.
 Le quatrième est que **deux lignes signées manquent à la descente si on les oublie**. Les activités
 abandonnées valent moins 1,8 milliard chez la Banque Royale en 2011, l'exercice où elle a vendu sa
 banque de détail américaine ; les éléments extraordinaires valent plus 309 millions chez la
-Toronto-Dominion en 2008. Sans elles, la descente laisse un écart de 7,9 % du revenu brut ; avec
-elles, de un millionième.
+Toronto-Dominion en 2008. Sans ces deux lignes, la descente laisse un écart de 7,5 % du revenu
+brut ; sans elles ni la part des minoritaires, de 7,9 % ; avec les trois, de un millionième.
 
 ## 4. La méthode, pas à pas
 
@@ -101,31 +107,38 @@ elles, de un millionième.
 3. **Moyenner le bilan sur les douze mois de l'exercice**, clos le 31 octobre pour les six banques.
    La moyenne, et non la photographie du 31 octobre : un bilan de banque bouge de plusieurs pour cent
    d'un mois à l'autre, et c'est aussi ainsi que les banques calculent leur propre rendement.
-4. **Vérifier les trois identités** avant d'interpréter quoi que ce soit.
+4. **Vérifier les quatre identités** avant d'interpréter quoi que ce soit.
 5. **Décomposer**, puis attribuer la variation par les logarithmes, ce qui rend l'addition exacte
    alors que les trois facteurs se multiplient.
 
 ## 5. Les résultats
 
-### 5.1 Les trois identités tiennent
+### 5.1 Les quatre identités tiennent
 
 | Identité | Ce qu'elle vérifie | Observations | Pire écart |
 |---|---|---:|---:|
-| Marge × productivité × levier = rendement | qu'aucun poste n'est compté deux fois | 174 exercices | **5,6 × 10⁻¹⁷** |
+| Marge × productivité × levier = rendement | qu'aucun poste n'est compté deux fois | 174 exercices | **2,8 × 10⁻¹⁷** |
 | Revenu brut moins charges = résultat net | que la descente est complète | 174 exercices | **8 000 $** sur des milliards |
+| Ligne 14 plus ligne 21 moins ligne 15 = ligne 22 | quel code porte le revenu hors intérêt | 174 exercices | **5 000 $** |
 | Actif = passif plus capitaux propres | que le bilan se referme | 19 241 fins de mois | **1 000 $** |
 
 Comment lire ce tableau, en trois constats. Le premier est que la première ligne est un contrôle du
 code et non des données : l'identité de DuPont est vraie par construction, et un écart visible aurait
-signalé une erreur de programmation. Le deuxième est que les deux autres portent sur les données
-elles-mêmes, et qu'elles tiennent : le bilan des banques canadiennes se referme **exactement** sur
-19 238 des 19 241 fins de mois publiées, les trois autres à mille dollars près, ce qui est l'unité de
-publication du relevé. Le troisième est que l'écart de 8 000 $ sur la descente n'a été atteint
-qu'après avoir trouvé les quatre pièges de la section 3 ; avant, il valait 1,9 milliard.
+signalé une erreur de programmation. Le deuxième est que les trois autres portent sur les données
+elles-mêmes, et qu'elles tiennent. Le bilan se referme exactement sur 19 238 des 19 241 fins de mois
+publiées, dont 1 101 sont les trois agrégats du portail et non des banques. Les trois observations
+qui restent ferment à mille dollars près, l'unité de publication du relevé. Le troisième est que la
+troisième ligne tranche entre trois codes homonymes. Le revenu hors intérêt referme le formulaire à
+5 000 $ près avec le code retenu. Il le manque de 8,5 milliards avec le premier de ses deux
+homonymes, de 30,5 milliards avec le second.
+
+L'écart de 8 000 $ sur la descente n'a été atteint qu'après avoir trouvé les quatre pièges de la
+section 3. Avant, il valait 1,9 milliard.
 
 ### 5.2 La marge a gagné, la productivité et le levier ont plus que perdu
 
-Moyenne des six banques, en points de pourcentage de rendement des capitaux propres.
+Moyenne des six banques ; les deux premières colonnes en pour cent, les quatre suivantes en points
+de pourcentage de rendement des capitaux propres.
 
 | Période | Rendement au départ | À l'arrivée | Variation | dont marge | dont productivité | dont levier |
 |---|---:|---:|---:|---:|---:|---:|
@@ -136,14 +149,15 @@ Moyenne des six banques, en points de pourcentage de rendement des capitaux prop
 | **1997 à 2025** | **15,95 %** | **12,98 %** | **−2,97** | **+5,67** | **−4,52** | **−4,12** |
 
 Comment lire ce tableau, en trois constats. Le premier est que sur vingt-huit ans la marge a ajouté
-5,67 points de rendement, ce qui est considérable, et que le rendement a quand même baissé de 2,97
-points : les deux autres facteurs en ont retiré 8,64 à eux deux. Le deuxième est que la crise de 2008
-se lit dans la marge et non dans le levier, contrairement à ce qu'on attendrait : entre 2007 et 2009
-le levier n'explique que 1,17 point sur 7,54, parce que le désendettement des banques canadiennes est
-venu **après** la crise et non pendant, comme le montre la période suivante où le levier retire 2,45
-points. Le troisième est que les quatre premières lignes ne s'additionnent pas pour donner la
-cinquième : l'attribution est exacte à l'intérieur d'une période, pas entre périodes, et le dépôt
-publie donc la période longue comme une ligne à part plutôt que comme une somme.
+5,67 points de rendement, ce qui est considérable. Le rendement a pourtant baissé de 2,97 points :
+les deux autres facteurs en ont retiré 8,64 à eux deux. Le deuxième est que la crise de 2008 se lit
+dans la marge et non dans le levier, contrairement à ce qu'on attendrait. Entre 2007 et 2009, le
+levier n'explique que 1,17 point sur 7,54. Le désendettement des banques canadiennes est venu après
+la crise et non pendant, et la période suivante le montre, où le levier retire 2,45 points. Le
+troisième est que les contributions des quatre premières lignes ne s'additionnent pas à celles de la
+cinquième, alors que la colonne Variation, elle, se télescope exactement. L'attribution est exacte à
+l'intérieur d'une période, pas entre périodes, et le dépôt publie donc la période longue comme une
+ligne à part plutôt que comme une somme.
 
 ![Ce que chaque facteur a apporté au rendement, de 1997 à 2025](results/figures/contributions.png)
 
@@ -162,29 +176,32 @@ totale. Une banque dont le losange est à droite de zéro rapporte plus qu'en 19
 | **de Nouvelle-Écosse** | **18,26 %** | **9,25 %** | **−9,01** | **−1,81** | −4,20 | −3,01 |
 
 Comment lire ce tableau, en trois constats. Le premier est que la Banque de Nouvelle-Écosse est la
-seule dont la marge a **baissé** en vingt-huit ans, et c'est aussi celle qui perd le plus : elle
-partait de la meilleure position des six et finit à la dernière place. Le deuxième est que la Banque
-Nationale a la plus forte progression de marge, +8,94 points, et finit pourtant à plat : sa
-productivité d'actif a reculé plus que celle de toutes les autres. Le troisième est que la
-contribution du levier est du même ordre pour les six, de −3,0 à −5,4 points, ce qui est attendu :
-c'est le même régulateur qui a fixé les mêmes exigences de fonds propres aux six.
+seule dont la marge a baissé en vingt-huit ans. C'est aussi celle qui perd le plus : elle partait de
+la meilleure position des six et finit à la dernière place. Le deuxième est que la Banque Nationale a
+la plus forte progression de marge, +8,94 points, et finit pourtant à plat : sa productivité d'actif
+a reculé plus que celle de toutes les autres. Le troisième est que la contribution du levier est du
+même ordre pour les six, de −3,0 à −5,4 points. Les six relèvent du même régulateur et des mêmes
+exigences de fonds propres, mais rien ici ne mesure la part que ces exigences y prennent.
 
 ![Les trois facteurs, exercice par exercice](results/figures/trois_facteurs.png)
 
-Comment lire cette figure : un cadre par facteur, une ligne par banque. Le creux nommé du cadre de
-gauche est l'exercice 2008 de la Banque Canadienne Impériale de Commerce, dont le revenu brut est
-tombé de 12,07 à 3,71 milliards et qui a perdu 2,06 milliards : sa marge vaut cette année-là moins
-55 % et son coefficient d'exploitation 194 %. Le cadre de droite montre que le levier ne baisse pas
-en 2008 mais à partir de 2009.
+Comment lire cette figure : un cadre par facteur, une ligne par banque. Le creux nommé des deux
+premiers cadres est l'exercice 2008 de la Banque Canadienne Impériale de Commerce. Son revenu brut
+est tombé de 12,07 à 3,71 milliards et elle a perdu 2,06 milliards. Sa marge vaut cette année-là
+moins 55 % et son coefficient d'exploitation 194 %. Le cadre du milieu porte la même étiquette : sa
+productivité tombe de 3,63 % à 1,08 %. Le cadre de droite montre que le levier ne baisse pas en 2008
+mais à partir de 2009.
 
-### 5.4 De chaque dollar encaissé, trente cents restent aux actionnaires
+### 5.4 De chaque dollar encaissé à la Banque Royale, trente cents restent aux actionnaires
 
 ![Du revenu brut au résultat net, Banque Royale, exercice 2025](results/figures/descente.png)
 
 Comment lire cette figure : la première barre est le revenu brut, ramené à 100. Les trois suivantes
 retranchent les provisions pour créances douteuses, les frais de fonctionnement et l'impôt. La
-dernière est ce qui reste. Les frais pèsent huit fois plus que les provisions, ce qui explique
-pourquoi le premier chiffre qu'un analyste de banque regarde est le coefficient d'exploitation.
+cinquième réunit la part des actionnaires minoritaires, les activités abandonnées et les éléments
+extraordinaires, et vaut −0,0 pour cet exercice. La sixième est ce qui reste. Les frais pèsent huit
+fois plus que les provisions, ce qui explique pourquoi le premier chiffre qu'un analyste de banque
+regarde est le coefficient d'exploitation.
 
 | Banque | Rendement 2025 | Marge | Productivité | Levier | Coefficient d'exploitation |
 |---|---:|---:|---:|---:|---:|
@@ -197,8 +214,8 @@ pourquoi le premier chiffre qu'un analyste de banque regarde est le coefficient 
 
 Comment lire ce tableau, en trois constats. Le premier est que le levier ne sépare plus les six : il
 va de 16,9 à 17,9, un écart de six pour cent, alors qu'il allait de 21,6 à 24,7 en 1997. Le deuxième
-est que le classement suit la marge presque exactement, donc le coefficient d'exploitation : les
-quatre banques dont les frais absorbent moins de 55 % du revenu sont les quatre premières. Le
+est que le classement suit la marge presque exactement, et le coefficient d'exploitation de près :
+les quatre banques dont les frais absorbent moins de 55 % du revenu sont les quatre premières. Le
 troisième est que l'écart entre la première et la dernière vaut 7,5 points de rendement, soit
 davantage que la baisse moyenne du secteur en vingt-huit ans.
 
@@ -206,9 +223,10 @@ davantage que la baisse moyenne du secteur en vingt-huit ans.
 
 Comment lire cette figure : à gauche les frais rapportés au revenu brut, à droite le rendement, avec
 la moyenne des six en trait épais. Le coefficient d'exploitation passe de 63,6 % en 1997 à 55,9 % en
-2025, mais l'amélioration n'est pas continue : il **empire d'abord**, jusqu'à 68,3 % en 2003, et ne
-descend qu'à partir de 2009. La pointe nommée à 194 % est l'exercice 2008 de la Banque Canadienne
-Impériale de Commerce, dont les frais ont dépassé le revenu brut effondré.
+2025, mais l'amélioration n'est pas continue. Il empire d'abord, jusqu'à 69,9 % en 2005, puis 87,3 %
+dans la crise de 2008. Il ne descend qu'à partir de 2009, et remonte encore à 62,5 % en 2023, plus
+haut que ses onze exercices précédents. La pointe nommée à 194 % est l'exercice 2008 de la Banque
+Canadienne Impériale de Commerce, dont les frais ont dépassé le revenu brut effondré.
 
 ### 5.5 Le compte de résultat du BSIF ne porte aucune ligne de dividendes
 
@@ -225,35 +243,48 @@ qui en sort est tout le reste.
 | 2025 | 69,8 % |
 | 2012 | **123,1 %** |
 
-Comment lire ce tableau, en trois constats. Le premier est que l'exercice 2021, qui court de novembre
-2020 à octobre 2021, est le plus bas depuis 2005 : il tombe entièrement à l'intérieur de la
-restriction du BSIF, qui a demandé aux institutions en mars 2020 de ne pas augmenter leurs dividendes
-ni racheter d'actions, et l'a levée le 4 novembre 2021 (source citée en section 8). Le deuxième est
-que l'exercice 2012 dépasse cent pour cent, ce qui ne veut pas dire que les banques ont distribué
-plus qu'elles n'ont gagné : c'est l'exercice de première application des normes comptables
-internationales, dont l'ajustement d'ouverture a été imputé aux bénéfices non répartis. Le troisième
-est que ce résidu **n'est pas un taux de distribution** et que le dépôt ne l'appelle pas ainsi : il
-mélange les dividendes, les rachats d'actions imputés aux bénéfices non répartis et les retraitements
-comptables, et rien dans les relevés publics ne permet de les séparer.
+Comment lire ce tableau, en trois constats. Le premier est que l'exercice 2021, qui court de
+novembre 2020 à octobre 2021, est le plus bas depuis 2005, dont la moyenne ne porte que sur cinq
+banques. Il tombe entièrement à l'intérieur de la restriction du BSIF. Celui-ci a demandé aux
+institutions en mars 2020 de ne pas augmenter leurs dividendes ni racheter d'actions, et il a levé
+cette attente le 4 novembre 2021 (source citée en section 8). Le deuxième est que l'exercice 2012
+dépasse cent pour cent. Cela ne veut pas dire que les banques ont distribué plus qu'elles n'ont
+gagné. C'est l'exercice de première application des normes comptables internationales, dont
+l'ajustement d'ouverture a été imputé aux bénéfices non répartis. Le troisième est que ce résidu
+**n'est pas un taux de distribution**, et que le dépôt ne l'appelle pas ainsi. Il mélange les
+dividendes, les rachats d'actions imputés aux bénéfices non répartis et les retraitements
+comptables. Rien dans les relevés publics ne permet de les séparer.
 
 ![Ce qui quitte les bénéfices non répartis, exercice par exercice](results/figures/sorties.png)
 
-Comment lire cette figure : une ligne fine par banque, la moyenne des six en trait épais, la bande
-colorée marquant les exercices couverts par la restriction du BSIF. Le creux de 2021 et le pic de
-2012 sont nommés sur la figure parce que sans nom ils passeraient pour du bruit.
+Comment lire cette figure : une ligne fine par banque, la moyenne des banques en bénéfice en trait
+épais, la bande colorée marquant les exercices couverts par la restriction du BSIF. Un exercice en
+perte n'a pas de part du résultat net, si bien que trois années sur vingt-neuf, 2002, 2005 et 2008,
+ne comptent que cinq banques. Les deux événements qui expliquent le creux de 2021 et le pic de 2012 sont
+nommés sur la figure, parce que sans eux ces deux points passeraient pour du bruit.
 
 ## 6. Reproduire
 
 ```bash
 uv sync --locked --all-extras
-uv run pytest                 # 24 tests fermés, sans réseau ni gros fichiers
+uv run pytest                 # 32 tests fermés, sans réseau ni gros fichiers
 uv run rdb fetch              # les deux relevés du BSIF, 979 Mo
 uv run rdb entrepot           # l'entrepôt DuckDB, 1 900 048 lignes
-uv run rdb tout               # les quatre études et les cinq figures
+uv run rdb tout               # les six tables et les cinq figures
 ```
 
-Les tests tournent sur les formules et sur une banque fabriquée dont chaque rapport tombe rond. Tous
-les chiffres de ce README viennent des fichiers de `results/`.
+Les tests tournent sur les formules et sur une banque fabriquée dont chaque rapport tombe rond. Les
+chiffres des tableaux et des figures viennent des fichiers de `results/`, et chacun a le sien. Deux
+mesures font exception. Les écarts des deux codes homonymes du revenu hors intérêt et ce que
+l'omission du code 8635 gonflait en 2005 et 2006 sont écrits dans `src/rdb/postes.py`.
+
+- `entrepot.json` : ce que les deux relevés contiennent, jusqu'à la taille des fichiers source.
+- `identites.json` : les quatre écarts et les comptes d'observations.
+- `tables/decomposition.csv` : les trois facteurs, exercice par exercice.
+- `tables/contributions.csv` : l'attribution de la variation, avec son dénominateur.
+- `tables/pieges.csv` : ce que coûterait l'oubli des postes qu'on oublie.
+- `tables/sorties.csv` : ce qui quitte les bénéfices non répartis.
+- `tables/composition.csv` : les lignes de capitaux propres publiées chaque mois.
 
 ## 7. Limites, avec leur statut
 
@@ -265,7 +296,11 @@ les chiffres de ce README viennent des fichiers de `results/`.
 | Le bilan est moyenné sur douze mois, pas sur les jours | reconnu ; les banques publient elles-mêmes une moyenne, sans dire laquelle, donc l'écart avec leur propre chiffre n'est pas mesurable |
 | Les capitaux propres retenus excluent la part des actionnaires minoritaires | déclaré ; c'est ce qui les apparie au résultat net du relevé, lui aussi net de cette part |
 | Les changements de référentiel comptable coupent les séries en 2011 et 2012 | mesuré ; les deux codes de minoritaires sont additionnés, mais un retraitement d'ouverture reste un retraitement, et l'exercice 2012 le montre |
-| Les six banques seules, pas les banques étrangères ni les petites | déclaré ; l'entrepôt en contient 110, et le code s'applique à n'importe laquelle, mais l'exercice ne se clôt pas toutes en octobre |
+| Les six banques seules, pas les banques étrangères ni les petites | déclaré ; l'entrepôt en contient 110 au compte de résultat, et le code s'applique à n'importe laquelle, mais l'exercice ne se clôt pas toutes en octobre |
+| Le cumul des autres éléments du résultat global a changé de code fin 2006 | mesuré ; le code 8635, publié de janvier 2005 à octobre 2006, est une composante négative des capitaux propres, et l'omettre les gonflait de 0,7 à 13,6 % sur ces deux exercices ; corrigé le 31 août 2026, et un contrôle signale désormais tout code de cette branche que le dépôt ne nomme ni ne lit |
+| La moyenne de bilan exige douze mois, jamais les mêmes douze lignes | mesuré ; 19 exercices sur 174 mélangent deux compositions, dont les six de 2007, et `results/tables/composition.csv` les publie plutôt que de les taire |
+| Les parts de `tables/contributions.csv` s'envolent quand le rendement ne bouge presque pas | déclaré ; elles se divisent par la variation du logarithme du rendement, publiée dans le même fichier ; les colonnes `points_` en points de rendement, seules citées ici, restent finies |
+| Le contrôle du bilan mêle les banques et les agrégats du portail | mesuré ; sur 19 241 fins de mois, 1 101 appartiennent aux trois totaux que le portail calcule lui-même, et les deux comptes sont publiés séparément dans `results/identites.json` |
 | Le rendement calculé ici n'est pas celui que les banques publient | déclaré ; elles retranchent souvent les dividendes privilégiés et emploient les capitaux propres ordinaires, ce qui donne un nombre plus élevé |
 
 ## 8. Crédits, licence, citation
@@ -285,8 +320,8 @@ Code sous licence MIT, rapport sous licence CC BY 4.0. Figures et chargeur de do
 
 Voisinage dans le portefeuille :
 [28-etats-financiers-reformules](https://github.com/Guilou001/28-etats-financiers-reformules) fait le
-même partage entre exploitation et financement sur les entreprises **non financières** du Canada, où
-le levier n'ajoute presque rien ; celui-ci le fait sur les banques, dont le levier est le métier.
+même partage entre exploitation et financement sur les entreprises non financières du Canada, où le
+levier n'ajoute presque rien. Celui-ci le fait sur les banques, dont le levier est le métier.
 [30-risque-operationnel](https://github.com/Guilou001/30-risque-operationnel) lit les mêmes relevés
 pour en tirer le capital réglementaire. Le rapport `rapport/rapport.pdf` est engendré depuis ce
 README.

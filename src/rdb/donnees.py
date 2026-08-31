@@ -42,9 +42,23 @@ def ouvrir(entrepot: Path = ENTREPOT):
     return osfi.ouvrir(entrepot)
 
 
-def mesurer(co) -> dict[str, int]:
+def mesurer(co, racine: Path = RACINE) -> dict[str, int]:
     mesures = osfi.mesurer(co, list(VUES))
+    # `gvf.osfi` ne compte les institutions que dans la première vue. Les deux relevés n'en portent
+    # pas le même nombre, et trois d'entre elles sont les totaux que le portail calcule lui-même :
+    # les trois comptes se publient donc séparément plutôt que résumés en un seul.
+    for vue in VUES:
+        mesures[f"institutions_{vue}"] = co.execute(
+            f"SELECT count(DISTINCT institution) FROM {vue}").fetchone()[0]
+    mesures["agregats_du_portail"] = co.execute(
+        "SELECT count(DISTINCT institution) FROM bilan WHERE institution LIKE '1000%'").fetchone()[0]
     mesures["exercices"] = co.execute("SELECT count(DISTINCT exercice) FROM resultat").fetchone()[0]
     mesures["premier_exercice"] = co.execute("SELECT min(exercice) FROM resultat").fetchone()[0]
     mesures["dernier_exercice"] = co.execute("SELECT max(exercice) FROM resultat").fetchone()[0]
+    # la taille des deux fichiers source, mesurée sur le disque : le README l'annonce et elle doit
+    # donc se retrouver dans `results/` comme le reste
+    for releve in RELEVES:
+        chemin = racine / releve.fichier
+        if chemin.exists():
+            mesures[f"octets_{releve.cle}"] = chemin.stat().st_size
     return mesures

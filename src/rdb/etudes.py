@@ -1,4 +1,4 @@
-"""Les cinq études du dépôt, chacune rendant le tableau qu'elle produit."""
+"""Les quatre études du dépôt, et les lectures d'entrepôt dont elles se servent."""
 
 from __future__ import annotations
 
@@ -41,9 +41,9 @@ def _moyenne_annuelle(co, institution: str, poste: str | list[str]) -> dict[int,
     par_mois = dict(lignes)
     par_exercice: dict[int, list[float]] = {}
     for date, valeur in par_mois.items():
-        # un exercice clos le 31 octobre couvre novembre et décembre de l'année précédente, puis
-        # janvier à octobre de l'année qui lui donne son nom
-        exercice = date.year + 1 if date.month >= 11 else date.year
+        # la règle d'exercice vit dans `postes`, à un seul endroit : la réécrire ici la ferait
+        # diverger de la liste que les tests gardent
+        exercice = postes.exercice_du_mois(date.year, date.month)
         par_exercice.setdefault(exercice, []).append(valeur)
     return {e: sum(v) / len(v) for e, v in par_exercice.items() if len(v) == 12}
 
@@ -111,10 +111,87 @@ def identites_du_bilan(co) -> pd.DataFrame:
     return table
 
 
-def resume_des_identites(bilan: pd.DataFrame, decompo: pd.DataFrame) -> dict:
-    """Les quatre nombres qui disent si les relevés se tiennent."""
-    return {
+def identite_du_formulaire(co) -> pd.DataFrame:
+    """La ligne 22 du relevé contre la somme des lignes qui la composent, banque par banque.
+
+    Le formulaire P3 pose que le revenu net d'intérêt et hors intérêt, ligne 22, est la ligne 14
+    plus la ligne 21 moins la ligne 15. C'est l'identité qui prouve quel code porte le revenu hors
+    intérêt : trois codes du portail en portent le libellé, un seul referme l'égalité. Sans ce
+    contrôle, échanger le code choisi contre l'un de ses homonymes ne casserait rien de visible et
+    déplacerait la productivité de toutes les banques.
+    """
+    lignes = []
+    for bid, nom in postes.GRANDES_BANQUES.items():
+        quatorze = _cumul_annuel(co, bid, postes.REVENU_INTERET_NET)
+        quinze = _cumul_annuel(co, bid, postes.PROVISIONS)
+        vingt_et_un = _cumul_annuel(co, bid, postes.REVENU_HORS_INTERET)
+        vingt_deux = _cumul_annuel(co, bid, postes.REVENU_NET_TOTAL)
+        for e in sorted(set(quatorze) & set(vingt_et_un) & set(vingt_deux)):
+            reconstitue = quatorze[e] + vingt_et_un[e] - quinze.get(e, 0.0)
+            lignes.append({"institution": bid, "nom": nom, "exercice": e,
+                           "ligne_22_publiee": vingt_deux[e], "ligne_22_reconstituee": reconstitue,
+                           "ecart": reconstitue - vingt_deux[e]})
+    return pd.DataFrame(lignes)
+
+
+def codes_de_capitaux_propres_non_declares(co) -> list[str]:
+    """Les codes de la branche « capitaux propres » que le dépôt ne retient ni n'écarte par écrit.
+
+    Le relevé change au fil des années : un code apparaît, un autre s'éteint. Ce contrôle compare
+    ce que l'entrepôt contient à ce que `postes` déclare, et rend la liste de ce qui manque à
+    l'appel. Il a été écrit après avoir trouvé un code de cette branche, le 8635, qu'aucune liste
+    ne lisait.
+    """
+    presents = [ligne[0] for ligne in co.execute(
+        "SELECT DISTINCT poste FROM bilan WHERE lower(libelle) LIKE '%shareholder%equity%'"
+        " ORDER BY poste").fetchall()]
+    connus = set(postes.CAPITAUX_PROPRES) | set(postes.CAPITAUX_PROPRES_ECARTES)
+    return [code for code in presents if code not in connus]
+
+
+def composition_des_capitaux_propres(co) -> pd.DataFrame:
+    """Combien de compositions de lignes différentes chaque exercice de bilan mélange.
+
+    La moyenne d'exercice exige douze mois, jamais les mêmes douze lignes. Un poste qui n'est
+    publié qu'une partie de l'année sort du dénominateur sans rien dire. Cette table rend la
+    rupture visible plutôt que muette : un exercice à deux compositions mélange deux définitions
+    des capitaux propres.
+    """
+    lignes = []
+    marques = ", ".join("?" * len(postes.CAPITAUX_PROPRES))
+    for bid, nom in postes.GRANDES_BANQUES.items():
+        par_mois: dict[dt.date, set[str]] = {}
+        for date, poste in co.execute(
+                f"""SELECT fin_de_mois, poste FROM bilan
+                    WHERE institution = ? AND poste IN ({marques})""",
+                [bid, *postes.CAPITAUX_PROPRES]).fetchall():
+            par_mois.setdefault(date, set()).add(poste)
+        par_exercice: dict[int, list[frozenset[str]]] = {}
+        for date, codes in par_mois.items():
+            exercice = postes.exercice_du_mois(date.year, date.month)
+            par_exercice.setdefault(exercice, []).append(frozenset(codes))
+        for exercice, compositions in sorted(par_exercice.items()):
+            if len(compositions) != 12:
+                continue
+            distinctes = set(compositions)
+            lignes.append({
+                "institution": bid, "nom": nom, "exercice": exercice,
+                "mois": len(compositions), "compositions_distinctes": len(distinctes),
+                "codes": " ".join(sorted(set().union(*distinctes)))})
+    return pd.DataFrame(lignes)
+
+
+def resume_des_identites(bilan: pd.DataFrame, decompo: pd.DataFrame,
+                         formulaire: pd.DataFrame | None = None,
+                         codes_non_declares: list[str] | None = None) -> dict:
+    """Les nombres qui disent si les relevés se tiennent."""
+    agregats = bilan["institution"].str.startswith("1000")
+    resume = {
         "observations_de_bilan": int(len(bilan)),
+        # les trois pseudo-institutions 1000000, 1000001 et 1000002 sont les totaux que le portail
+        # calcule à partir des autres lignes : leur bilan n'est pas une observation indépendante
+        "observations_de_bilan_d_institutions": int((~agregats).sum()),
+        "observations_de_bilan_d_agregats": int(agregats.sum()),
         # les relevés sont publiés en milliers de dollars : un écart d'une unité est l'arrondi de
         # publication, pas une erreur, et le compte des fermetures exactes se donne à part
         "bilans_exactement_fermes": int((bilan["ecart"] == 0).sum()),
@@ -125,6 +202,42 @@ def resume_des_identites(bilan: pd.DataFrame, decompo: pd.DataFrame) -> dict:
         "pire_ecart_a_la_cascade_relatif": float(
             (decompo["ecart_a_la_cascade"].abs() / decompo["revenu_brut"]).max()),
     }
+    if formulaire is not None:
+        resume["exercices_du_formulaire"] = int(len(formulaire))
+        resume["pire_ecart_a_l_identite_du_formulaire_en_milliers"] = float(
+            formulaire["ecart"].abs().max())
+    if codes_non_declares is not None:
+        resume["codes_de_capitaux_propres_non_declares"] = list(codes_non_declares)
+    return resume
+
+
+def pieges_de_la_descente(co) -> pd.DataFrame:
+    """Ce que coûterait à la descente l'oubli des postes qu'on oublie.
+
+    La descente du revenu brut au résultat net ne se referme que si l'on retranche aussi trois
+    postes faciles à manquer : la part des actionnaires minoritaires, les activités abandonnées et
+    les éléments extraordinaires. Cette table publie, exercice par exercice, l'écart qui resterait
+    sans eux, pour que les chiffres du README se lisent sans refaire le calcul ni télécharger les
+    relevés.
+    """
+    lignes = []
+    for bid, nom in postes.GRANDES_BANQUES.items():
+        for e in exercices(co, bid, nom):
+            sans_rien = (e.revenu_brut - e.provisions - e.charges_hors_interet - e.impot
+                         - e.resultat_net)
+            sans_les_deux = sans_rien - e.minoritaires
+            lignes.append({
+                "institution": bid, "nom": nom, "exercice": e.exercice,
+                "revenu_brut": e.revenu_brut,
+                "activites_abandonnees": e.activites_abandonnees,
+                "elements_extraordinaires": e.elements_extraordinaires,
+                "minoritaires": e.minoritaires,
+                "ecart_complet": ecart_a_la_cascade(e),
+                "ecart_sans_les_deux_lignes_signees": sans_les_deux,
+                "ecart_sans_les_deux_lignes_ni_les_minoritaires": sans_rien,
+                "part_du_revenu_brut_sans_les_deux_lignes": abs(sans_les_deux) / e.revenu_brut,
+                "part_du_revenu_brut_sans_les_trois_postes": abs(sans_rien) / e.revenu_brut})
+    return pd.DataFrame(lignes)
 
 
 def contributions_par_periode(co, bornes: list[tuple[int, int]]) -> pd.DataFrame:

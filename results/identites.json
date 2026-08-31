@@ -1,9 +1,14 @@
 {
   "observations_de_bilan": 19241,
+  "observations_de_bilan_d_institutions": 18140,
+  "observations_de_bilan_d_agregats": 1101,
   "bilans_exactement_fermes": 19238,
   "pire_ecart_de_bilan_en_milliers": 1.0,
   "exercices": 174,
-  "pire_ecart_a_l_identite": 5.551115123125783e-17,
+  "pire_ecart_a_l_identite": 2.7755575615628914e-17,
   "pire_ecart_a_la_cascade": 8.0,
-  "pire_ecart_a_la_cascade_relatif": 1.0887991960306737e-06
+  "pire_ecart_a_la_cascade_relatif": 1.0887991960306737e-06,
+  "exercices_du_formulaire": 174,
+  "pire_ecart_a_l_identite_du_formulaire_en_milliers": 5.0,
+  "codes_de_capitaux_propres_non_declares": []
 }

@@ -167,6 +167,14 @@ def contributions(depart: Exercice, arrivee: Exercice) -> dict:
     La méthode a une limite qui est déclarée : elle exige que les deux rendements soient de même
     signe et non nuls. Une banque qui perd de l'argent une année ne s'y prête pas, et la fonction
     le dit plutôt que de rendre un nombre.
+
+    Deuxième limite, sur les parts et non sur les points. Les parts se divisent par la variation
+    du logarithme du rendement, publiée sous le nom `variation_logarithmique`. Quand cette
+    variation approche zéro, les parts s'envolent : la Banque Nationale, dont le rendement bouge de
+    treize centièmes de point en vingt-huit ans, en porte trois au-delà de mille pour cent. Les
+    points, eux, ne bougent pas. Ils valent la variation du logarithme de chaque facteur multipliée
+    par la moyenne logarithmique des deux rendements, quantité qui reste finie quand l'écart tend
+    vers zéro.
     """
     import math
 
@@ -184,8 +192,13 @@ def contributions(depart: Exercice, arrivee: Exercice) -> dict:
     total = sum(variations.values())
     parts = ({cle: v / total for cle, v in variations.items()} if abs(total) > 1e-15
              else dict.fromkeys(variations, 0.0))
+    # le dénominateur des parts est publié avec elles. Quand les deux rendements sont presque
+    # égaux, il tend vers zéro et les parts partent à l'infini sans que les points en souffrent :
+    # le produit part × écart vaut la variation du logarithme du facteur multipliée par la moyenne
+    # logarithmique des rendements. Le lecteur du fichier a besoin de voir ce dénominateur.
     resultat = {"exercice_depart": depart.exercice, "exercice_arrivee": arrivee.exercice,
-                "rendement_depart": r0, "rendement_arrivee": r1, "ecart": ecart}
+                "rendement_depart": r0, "rendement_arrivee": r1, "ecart": ecart,
+                "variation_logarithmique": total}
     for cle, part in parts.items():
         resultat[f"part_{cle}"] = part
         resultat[f"points_{cle}"] = part * ecart

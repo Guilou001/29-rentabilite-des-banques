@@ -64,15 +64,6 @@ def test_les_elements_extraordinaires_entrent_aussi():
     assert ecart_a_la_cascade(b) == pytest.approx(0.0)
 
 
-def test_le_revenu_brut_n_est_pas_la_ligne_vingt_deux_du_formulaire():
-    """Piège du relevé : la ligne 22 est déjà nette des provisions. Le revenu brut est la somme des
-    lignes 14 et 21, et prendre la 22 sous-estimerait la productivité de la banque."""
-    b = banque()
-    ligne_vingt_deux = b.revenu_brut - b.provisions
-    assert ligne_vingt_deux == pytest.approx(950.0)
-    assert b.revenu_brut > ligne_vingt_deux
-
-
 def test_les_contributions_s_additionnent_a_la_variation_totale():
     """La décomposition logarithmique répartit exactement l'écart, sans résidu."""
     depart = banque(exercice=2000, capitaux_propres_moyens=1_500.0)
@@ -81,6 +72,26 @@ def test_les_contributions_s_additionnent_a_la_variation_totale():
     somme = c["points_marge"] + c["points_productivite"] + c["points_levier"]
     assert somme == pytest.approx(c["ecart"], abs=1e-15)
     assert c["part_marge"] + c["part_productivite"] + c["part_levier"] == pytest.approx(1.0)
+
+
+def test_les_parts_s_envolent_quand_le_rendement_ne_bouge_pas_et_les_points_tiennent():
+    """Deux facteurs qui se compensent laissent un rendement presque inchangé. Les parts, qui se
+    divisent par la variation du logarithme de ce rendement, partent alors à l'infini.
+
+    Les points, eux, valent la variation du logarithme de chaque facteur multipliée par la moyenne
+    logarithmique des deux rendements, quantité finie quand l'écart tend vers zéro. Le test le
+    vérifie contre cette formule, calculée à part, et non contre la sortie du code.
+    """
+    depart = banque()
+    arrivee = banque(resultat_net=580.0, capitaux_propres_moyens=4_000.0 * (1 + 1e-9))
+    c = contributions(depart, arrivee)
+    assert abs(c["variation_logarithmique"]) < 1e-8
+    assert abs(c["part_marge"]) > 100.0
+    r0, r1 = depart.rendement_des_capitaux_propres, arrivee.rendement_des_capitaux_propres
+    moyenne_logarithmique = (r1 - r0) / math.log(r1 / r0)
+    for facteur, cle in (("marge", "points_marge"), ("levier", "points_levier")):
+        attendu = math.log(getattr(arrivee, facteur) / getattr(depart, facteur))
+        assert c[cle] == pytest.approx(attendu * moyenne_logarithmique, rel=1e-9)
 
 
 def test_un_facteur_seul_a_bouger_porte_toute_la_contribution():

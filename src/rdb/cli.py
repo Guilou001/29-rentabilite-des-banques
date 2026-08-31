@@ -38,20 +38,22 @@ def entrepot() -> None:
     co = donnees.construire_entrepot()
     mesures = donnees.mesurer(co)
     for cle, valeur in mesures.items():
-        typer.echo(f"  {cle:22} {valeur:>12,}")
+        typer.echo(f"  {cle:24} {valeur:>14,}")
     Path("results").mkdir(exist_ok=True)
     Path("results/entrepot.json").write_text(json.dumps(mesures, indent=2), encoding="utf-8")
 
 
 @app.command()
 def identites() -> None:
-    """Les trois identités que les relevés doivent vérifier, comptées plutôt qu'affirmées."""
+    """Les quatre identités que les relevés doivent vérifier, comptées plutôt qu'affirmées."""
     co = donnees.ouvrir()
     decompo = etudes.decomposition(co)
     bilan = etudes.identites_du_bilan(co)
-    resume = etudes.resume_des_identites(bilan, decompo)
+    formulaire = etudes.identite_du_formulaire(co)
+    non_declares = etudes.codes_de_capitaux_propres_non_declares(co)
+    resume = etudes.resume_des_identites(bilan, decompo, formulaire, non_declares)
     for cle, valeur in resume.items():
-        typer.echo(f"  {cle:34} {valeur}")
+        typer.echo(f"  {cle:48} {valeur}")
     Path("results").mkdir(exist_ok=True)
     Path("results/identites.json").write_text(json.dumps(resume, indent=2), encoding="utf-8")
 
@@ -65,6 +67,8 @@ def decomposer() -> None:
     dernier = table[table["exercice"] == table["exercice"].max()]
     typer.echo(dernier[["nom", "rendement_des_capitaux_propres", "marge", "productivite", "levier",
                         "coefficient_exploitation"]].to_string(index=False))
+    _ecrire(etudes.composition_des_capitaux_propres(co), "composition")
+    _ecrire(etudes.pieges_de_la_descente(co), "pieges")
     figures.trois_facteurs(table)
     figures.exploitation(table)
     plus_grande = max(etudes.exercices(co, "27997", "Banque Royale du Canada"),
