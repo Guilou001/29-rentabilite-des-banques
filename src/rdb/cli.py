@@ -13,7 +13,10 @@ app = typer.Typer(add_completion=False, help=__doc__)
 
 TABLES = Path("results/tables")
 # Les bornes sont posées sur des ruptures visibles dans les données, non sur des dates rondes :
-# 2007 est le dernier exercice avant la crise, 2009 le creux, 2019 le dernier avant la pandémie.
+# 2007 est le dernier exercice avant la crise, 2019 le dernier avant la pandémie. La borne de sortie
+# de crise n'est pas le creux du rendement : le rendement moyen des six est plus bas en 2008, à
+# 9,70 %, qu'en 2009, à 11,08 %. Mais l'exercice 2008 de la Banque Canadienne Impériale de Commerce
+# est en perte, à -14,98 %, et `contributions` refuse un rendement négatif. La borne est donc 2009.
 PERIODES = [(1997, 2007), (2007, 2009), (2009, 2019), (2019, 2025), (1997, 2025)]
 
 

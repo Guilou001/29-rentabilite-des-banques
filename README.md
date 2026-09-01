@@ -150,7 +150,7 @@ de pourcentage de rendement des capitaux propres.
 
 Comment lire ce tableau, en trois constats. Le premier est que sur vingt-huit ans la marge a ajouté
 5,67 points de rendement, ce qui est considérable. Le rendement a pourtant baissé de 2,97 points :
-les deux autres facteurs en ont retiré 8,64 à eux deux. Le deuxième est que la crise de 2008 se lit
+les deux autres facteurs en ont retiré 8,65 à eux deux. Le deuxième est que la crise de 2008 se lit
 dans la marge et non dans le levier, contrairement à ce qu'on attendrait. Entre 2007 et 2009, le
 levier n'explique que 1,17 point sur 7,54. Le désendettement des banques canadiennes est venu après
 la crise et non pendant, et la période suivante le montre, où le levier retire 2,45 points. Le
@@ -214,7 +214,7 @@ regarde est le coefficient d'exploitation.
 
 Comment lire ce tableau, en trois constats. Le premier est que le levier ne sépare plus les six : il
 va de 16,9 à 17,9, un écart de six pour cent, alors qu'il allait de 21,6 à 24,7 en 1997. Le deuxième
-est que le classement suit la marge presque exactement, et le coefficient d'exploitation de près :
+est que le classement suit exactement la marge, et le coefficient d'exploitation de près :
 les quatre banques dont les frais absorbent moins de 55 % du revenu sont les quatre premières. Le
 troisième est que l'écart entre la première et la dernière vaut 7,5 points de rendement, soit
 davantage que la baisse moyenne du secteur en vingt-huit ans.
@@ -225,7 +225,7 @@ Comment lire cette figure : à gauche les frais rapportés au revenu brut, à dr
 la moyenne des six en trait épais. Le coefficient d'exploitation passe de 63,6 % en 1997 à 55,9 % en
 2025, mais l'amélioration n'est pas continue. Il empire d'abord, jusqu'à 69,9 % en 2005, puis 87,3 %
 dans la crise de 2008. Il ne descend qu'à partir de 2009, et remonte encore à 62,5 % en 2023, plus
-haut que ses onze exercices précédents. La pointe nommée à 194 % est l'exercice 2008 de la Banque
+haut que ses treize exercices précédents. La pointe nommée à 194 % est l'exercice 2008 de la Banque
 Canadienne Impériale de Commerce, dont les frais ont dépassé le revenu brut effondré.
 
 ### 5.5 Le compte de résultat du BSIF ne porte aucune ligne de dividendes
@@ -258,10 +258,11 @@ comptables. Rien dans les relevés publics ne permet de les séparer.
 ![Ce qui quitte les bénéfices non répartis, exercice par exercice](results/figures/sorties.png)
 
 Comment lire cette figure : une ligne fine par banque, la moyenne des banques en bénéfice en trait
-épais, la bande colorée marquant les exercices couverts par la restriction du BSIF. Un exercice en
-perte n'a pas de part du résultat net, si bien que trois années sur vingt-neuf, 2002, 2005 et 2008,
-ne comptent que cinq banques. Les deux événements qui expliquent le creux de 2021 et le pic de 2012 sont
-nommés sur la figure, parce que sans eux ces deux points passeraient pour du bruit.
+épais. La bande colorée marque l'exercice 2021, seul entièrement couvert par la restriction du BSIF,
+et l'exercice 2020, qui ne l'est qu'à partir de mars. Un exercice en perte n'a pas de part du
+résultat net, si bien que trois années sur vingt-neuf, 2002, 2005 et 2008, ne comptent que cinq
+banques. Les deux événements qui expliquent le creux de 2021 et le pic de 2012 sont nommés sur la
+figure, parce que sans eux ces deux points passeraient pour du bruit.
 
 ## 6. Reproduire
 
@@ -270,7 +271,7 @@ uv sync --locked --all-extras
 uv run pytest                 # 32 tests fermés, sans réseau ni gros fichiers
 uv run rdb fetch              # les deux relevés du BSIF, 979 Mo
 uv run rdb entrepot           # l'entrepôt DuckDB, 1 900 048 lignes
-uv run rdb tout               # les six tables et les cinq figures
+uv run rdb tout               # les cinq tables, les quatre identités et les cinq figures
 ```
 
 Les tests tournent sur les formules et sur une banque fabriquée dont chaque rapport tombe rond. Les

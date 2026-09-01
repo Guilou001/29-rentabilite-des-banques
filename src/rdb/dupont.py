@@ -164,8 +164,8 @@ def contributions(depart: Exercice, arrivee: Exercice) -> dict:
     logarithme du rendement, et on obtient des parts qui font exactement cent pour cent. La
     contribution en points de rendement s'obtient en répartissant l'écart réel selon ces parts.
 
-    La méthode a une limite qui est déclarée : elle exige que les deux rendements soient de même
-    signe et non nuls. Une banque qui perd de l'argent une année ne s'y prête pas, et la fonction
+    La méthode a une limite qui est déclarée : elle exige que les deux rendements soient
+    strictement positifs. Une banque qui perd de l'argent une année ne s'y prête pas, et la fonction
     le dit plutôt que de rendre un nombre.
 
     Deuxième limite, sur les parts et non sur les points. Les parts se divisent par la variation
