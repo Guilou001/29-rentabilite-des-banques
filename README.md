@@ -1,20 +1,22 @@
-# Les banques canadiennes gagnent mieux leur vie qu'en 1997 et rapportent moins à leurs actionnaires
+# Pourquoi les banques canadiennes rapportent moins à leurs actionnaires qu'en 1997
 
-Une banque qui garde près de vingt-huit cents de chaque dollar encaissé, contre dix-neuf il y a
-vingt-huit ans, devrait rapporter davantage. Les six grandes banques canadiennes rapportent
-pourtant trois points de moins qu'en 1997. Ce dépôt sépare les causes, sur les relevés déposés au
-régulateur.
+Une banque peut améliorer sa marge tout en réduisant le rendement versé à ses actionnaires. Ce résultat est possible si chaque dollar d'actif produit moins de revenu ou si la banque utilise moins d'endettement. Le présent projet sépare ces trois effets pour les six grandes banques canadiennes.
+
+Nous utilisons les comptes de résultat P3 et les bilans M4 publiés par le BSIF. Ces relevés forment une base de 1,9 million de lignes et couvrent 174 exercices entre 1997 et 2025. La décomposition de DuPont relie la marge, la productivité de l'actif et le rapport entre l'actif et les capitaux propres.
+
+**Résultat principal.** Le rendement moyen des capitaux propres passe de 15,95 % en 1997 à 12,98 % en 2025. L'amélioration de la marge ajoute 5,67 points de pourcentage, mais la baisse de la productivité en retire 4,52 et la réduction de l'endettement en retire 4,12. Ainsi, les deux derniers effets dépassent ensemble le gain de marge. L'identité de décomposition se referme à une erreur de 5,6 × 10⁻¹⁷.
+
+Afin d'expliquer cette évolution, nous présenterons d'abord les relevés du BSIF et les trois rapports de DuPont. Dans un deuxième temps, nous reconstruirons les états financiers et vérifierons leurs identités. Ensuite, nous attribuerons la variation du rendement à chaque facteur et comparerons les six banques. Enfin, nous examinerons les dividendes indirectement observables, les pièges de données, les limites et les commandes.
 
 [![ci](https://github.com/Guilou001/29-rentabilite-des-banques/actions/workflows/ci.yml/badge.svg)](https://github.com/Guilou001/29-rentabilite-des-banques/actions/workflows/ci.yml)
 ![python](https://img.shields.io/badge/python-3.12-blue)
 ![duckdb](https://img.shields.io/badge/entrepôt-DuckDB-yellow)
 ![licence](https://img.shields.io/badge/code-MIT-green)
 
-**Résultat en une phrase.** Sur 174 exercices et six banques de 1997 à 2025, la marge a ajouté
-**+5,7 points** au rendement des capitaux propres. Deux choses lui en ont retiré **8,6** : chaque
-dollar de bilan produit moins de revenu qu'avant (**−4,5 points**), et les banques portent un quart
-de levier en moins (**−4,1 points**). Le rendement moyen passe donc de **15,95 % à 12,98 %**, et
-l'identité qui le décompose se referme à **2,8 × 10⁻¹⁷**.
+Le rapport détaillé est disponible en PDF : [rapport/rapport.pdf](rapport/rapport.pdf).
+
+<details>
+<summary>Résumé en anglais</summary>
 
 *Summary in English. A DuPont decomposition of Canada's six domestic systemically important banks
 over 174 bank-years, built from OSFI's public P3 income statement and M4 balance sheet returns
@@ -26,7 +28,8 @@ month-ends. A by-product: OSFI's income statement carries no dividend line, so w
 shareholders is only visible from retained earnings, where the 2021 fiscal year stands out at 33.8 %
 of net income, the year fully covered by OSFI's restriction on dividends and buybacks.*
 
-## 1. La question posée
+</details>
+## 1. La question en détail
 
 **En mots simples.** Deux banques rapportent 14 % à leurs actionnaires. La première y arrive parce
 qu'elle garde beaucoup de chaque dollar encaissé. La seconde parce qu'elle a emprunté vingt dollars

@@ -1,4 +1,4 @@
-#set document(title: "Les banques canadiennes gagnent mieux leur vie qu'en 1997 et rapportent moins à leurs actionnaires", author: "Guillaume Vaudescal")
+#set document(title: "Pourquoi les banques canadiennes rapportent moins à leurs actionnaires qu'en 1997", author: "Guillaume Vaudescal")
 #set page(
   paper: "a4",
   margin: (x: 2.2cm, y: 2.4cm),
@@ -30,22 +30,30 @@
 
 #align(center)[
   #block(width: 100%)[
-    #text(size: 18pt, weight: "bold")[Les banques canadiennes gagnent mieux leur vie qu'en 1997 et rapportent moins à leurs actionnaires]
+    #text(size: 18pt, weight: "bold")[Pourquoi les banques canadiennes rapportent moins à leurs actionnaires qu'en 1997]
     #v(0.6em)
-    #text(size: 10pt, fill: luma(70))[Guillaume Vaudescal · 2026-08-31 · #link("https://github.com/Guilou001/29-rentabilite-des-banques")[Guilou001/29-rentabilite-des-banques]]
+    #text(size: 10pt, fill: luma(70))[Guillaume Vaudescal · 2026-09-04 · #link("https://github.com/Guilou001/29-rentabilite-des-banques")[Guilou001/29-rentabilite-des-banques]]
   ]
 ]
 #v(1.2em)
 #line(length: 100%, stroke: 0.6pt + luma(190))
 #v(0.8em)
 
-Une banque qui garde près de vingt-huit cents de chaque dollar encaissé, contre dix-neuf il y a vingt-huit ans, devrait rapporter davantage. Les six grandes banques canadiennes rapportent pourtant trois points de moins qu'en 1997. Ce dépôt sépare les causes, sur les relevés déposés au régulateur.
+Une banque peut améliorer sa marge tout en réduisant le rendement versé à ses actionnaires. Ce résultat est possible si chaque dollar d'actif produit moins de revenu ou si la banque utilise moins d'endettement. Le présent projet sépare ces trois effets pour les six grandes banques canadiennes.
 
-*Résultat en une phrase.* Sur 174 exercices et six banques de 1997 à 2025, la marge a ajouté *+5,7 points* au rendement des capitaux propres. Deux choses lui en ont retiré *8,6* : chaque dollar de bilan produit moins de revenu qu'avant (*−4,5 points*), et les banques portent un quart de levier en moins (*−4,1 points*). Le rendement moyen passe donc de *15,95 % à 12,98 %*, et l'identité qui le décompose se referme à *2,8 × 10⁻¹⁷*.
+Nous utilisons les comptes de résultat P3 et les bilans M4 publiés par le BSIF. Ces relevés forment une base de 1,9 million de lignes et couvrent 174 exercices entre 1997 et 2025. La décomposition de DuPont relie la marge, la productivité de l'actif et le rapport entre l'actif et les capitaux propres.
+
+*Résultat principal.* Le rendement moyen des capitaux propres passe de 15,95 % en 1997 à 12,98 % en 2025. L'amélioration de la marge ajoute 5,67 points de pourcentage, mais la baisse de la productivité en retire 4,52 et la réduction de l'endettement en retire 4,12. Ainsi, les deux derniers effets dépassent ensemble le gain de marge. L'identité de décomposition se referme à une erreur de 5,6 × 10⁻¹⁷.
+
+Afin d'expliquer cette évolution, nous présenterons d'abord les relevés du BSIF et les trois rapports de DuPont. Dans un deuxième temps, nous reconstruirons les états financiers et vérifierons leurs identités. Ensuite, nous attribuerons la variation du rendement à chaque facteur et comparerons les six banques. Enfin, nous examinerons les dividendes indirectement observables, les pièges de données, les limites et les commandes.
+
+Le rapport détaillé est disponible en PDF : #link("rapport/rapport.pdf")[rapport/rapport.pdf].
+
+== Résumé en anglais
 
 _Summary in English. A DuPont decomposition of Canada's six domestic systemically important banks over 174 bank-years, built from OSFI's public P3 income statement and M4 balance sheet returns (1.9 million rows). Return on equity fell from 15.95 % to 12.98 % between fiscal 1997 and 2025. A logarithmic attribution splits the change: margin contributed +5.7 points, asset productivity −4.5 and leverage −4.1. The three-factor identity closes to machine precision, the revenue-to-net- income waterfall to one part in a million, and the balance sheet closes exactly on 19 238 of 19 241 month-ends. A by-product: OSFI's income statement carries no dividend line, so what banks return to shareholders is only visible from retained earnings, where the 2021 fiscal year stands out at 33.8 % of net income, the year fully covered by OSFI's restriction on dividends and buybacks._
 
-== 1. La question posée
+== 1. La question en détail
 
 *En mots simples.* Deux banques rapportent 14 % à leurs actionnaires. La première y arrive parce qu'elle garde beaucoup de chaque dollar encaissé. La seconde parce qu'elle a emprunté vingt dollars pour chaque dollar de capitaux propres. Ce n'est pas la même chose : la première tient dans la durée, la seconde se retourne à la première mauvaise année.
 
